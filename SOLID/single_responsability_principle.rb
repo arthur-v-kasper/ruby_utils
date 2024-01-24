@@ -2,7 +2,7 @@
 # The name is very straightforward.
 
 # EXPLANATION: A class has to be only ONE responsibility, for example: 
-# if you have a class called "AddItemToOrder" the only thing that this class can do is this and nothing else, let's check some code
+# if you have a class called "AddItemToOrder" the only thing that this class can do is this and nothing else, let's check some code 
 
 class AddItemToOrder
   def def initialize(order, item)
