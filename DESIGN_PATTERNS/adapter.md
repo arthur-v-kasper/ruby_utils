@@ -30,7 +30,13 @@ class OldApiAdapter < NewAPI
   end
 
   def get
-    @old_api.get_result
+    convert_xml_to_json(@old_api.get_result)
+  end
+
+  private
+
+  def convert_xml_to_json(result)
+   # logic to convert
   end
 end
 
