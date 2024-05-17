@@ -17,7 +17,7 @@ The user was not able to record the information
 
 The user was able to record the information
 
-## 2) Repetition number
+## 2) Repetition number (success_repetiton)
 
 Represented the number of times that the user answered with a successful record, in other words, the grade was `3...5`
 
