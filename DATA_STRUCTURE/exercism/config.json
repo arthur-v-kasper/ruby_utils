@@ -1,0 +1,7 @@
+{
+  "max_length": 100,
+  "sources": [
+    { "name": "Foo", "source": "http://localhost:3000" },
+    { "name": "Bar", "source": "http://localhost:8080" }
+  ]
+}
