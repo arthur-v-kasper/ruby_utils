@@ -1,9 +1,9 @@
 # Both are anonymous Function
 
+# diferences between Procs vs Lambdas
 # with Procs you can pass a wrong number of arguments
-# If you pass
 
-# with Lambda you have to use the exactly number or arguments
+# with Lambda you have to use the exactly number or arguments, if you do not, lambda will raise an error, the same way if you do not pass a argument when the lambda has one.
 # its recommended if you want yo strictly enforce rules
 
 my_proc = proc { |a, b, c| a + b }

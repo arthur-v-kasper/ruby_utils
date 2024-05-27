@@ -1,4 +1,4 @@
-include vs extend
+# include vs extend
 
 With include, the methods will be available in the class when you instantiate the class, you can use it as a class method, as in the example below
 
@@ -56,7 +56,7 @@ Bar.greet # => "Hey you!"
 
 ```
 
-## 3 Concepts of Functional Programming
+# 3 Concepts of Functional Programming
 
 1 - Functions are definitions, not a list of instructions, they get an input value to give an output value, instead of a list of instructions
 
@@ -64,7 +64,7 @@ Bar.greet # => "Hey you!"
 
 3 - Functions are first-class citizens: It means we can use in everywhere normally we use an another variable, including passing to another function
 
-## Implementing map functions, using Proc
+# Implementing map functions, using Proc
 
 The idea is to recreate the original map function of ruby, using the same contexts
 
@@ -81,7 +81,7 @@ def map(list, fn)
 end
 ```
 
-## Block
+# Block
 
 Blocks in ruby are optional so you need if there is a block in your code so you can user `block_given?`
 
@@ -102,6 +102,8 @@ def method_with_yield
   yield 3 if block_given?
   puts "Finishing the execution..."
 end
+
+`check difference between yield, &block, block.call`
 
 method_with_yield
 method_with_yield { |param| puts "you pass #{param}"}
@@ -137,4 +139,100 @@ map_words(phrase) {|item| item.length }
 map_words(phrase) {|item| item.reverse }
 ```
 
-`check difference between yield, &block and block.call`
+You can pass a code block as an argument too, so you need to use the & as a prefix in your param definition:
+
+```ruby
+
+```
+
+```ruby
+calc = -> num { num * 2 }
+
+def modify_price(prices, &block)
+  block.call(prices)
+end
+
+modify_price([1,2,3], &calc)
+```
+
+But you can use the “tradicional” way too
+
+```ruby
+modify_price([1,2,3]) { |p| p * 2 }
+```
+
+use `&symbol` to shorten call code block
+
+```ruby
+[1,2,3,4,5,6].select { |num| num.even? }
+
+# do this instead
+[1,2,3,4,5,6].select(&:even?)
+[1,2,3,4,5,6].find(&:even?)
+```
+
+## Currying
+
+Currying allow you call partial applications, so you can call part of the arguments now and the rest of them later, simple example:
+
+```ruby
+mult = -> a,b {a * b}
+double = mult.curry[5] # pass the first argument
+double[2] # pass the secound one and run
+# => 10
+# Since this is a lambda, you can call using "call" with you whould rather
+double.call(2)
+# => 10
+
+double[5] # if you call it again, curry will change the last argument and run again
+# => 25
+```
+
+This technique is useful for creating strategy patterns, let’s simulate it in a real-world situation, creating a Discount strategy for orders
+
+```ruby
+class Discount
+	def initialize(description, calculator)
+		@description = description
+		@calculator = calculator
+	end
+
+	def apply(total)
+	  # other way to run: total = @calculator[total]
+	  total = @calculator.call(total)
+	end
+end
+```
+
+```ruby
+# it works
+discount = Discount.new(
+  '15% off',
+   -> total { total * 0.15 }
+)
+
+# If I want to have a different discount based on the total? for example 10% for 50 or more and 15 for 100 or more?
+ten_discount = Discount.new(
+  '15% off',
+   -> total { total > 50 ? total * 0.10 : 0 }
+)
+
+fifteen_discount = Discount.new(
+  '15% off',
+   -> total { total > 100 ? total * 0.15 : 0 }
+)
+# It works, but we make a repetition here... it's not good, let's create use curry to solve this
+calc = -> threshold, discount, total do
+  total > thershold ? total * discount : 0
+end
+
+# With the lambda above, I can generate new discounts procs with curry to user after
+ten_percent = calc.curry.call(50, 0.1)
+fifteen_percent  = calc.curry.call(100, 0.15)
+
+ten_d_promotion = Discount.new('10% off', ten_percent)
+fifteen_d_promotion = Discount.new('15% off', fifteen_percent)
+
+ten_d_promotion.apply(67)
+fifteen_d_promotion.apply(130)
+```
