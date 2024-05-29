@@ -18,7 +18,7 @@ BarInclude.greet # Error
 #########################################
 ```
 
-With the \***\*extend\*\*** being more flexible, ruby creates a singleton instance for the method and you can use it in a class or in an instance
+With the **extend** being more flexible, ruby creates a singleton instance for the method and you can use it in a class or in an instance
 
 ```ruby
 module FooExtend
