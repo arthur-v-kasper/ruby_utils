@@ -108,3 +108,14 @@ end
 
 So... if we need to send notifications in another part of our app, we just use the factory.
 If for some reason we need to change some logic, add ou remove a kind of notification we just change it in one place
+
+## Why Factory Pattern is more apropriate that instance classes somethimes...
+
+- Statelessness:
+  - Factory methods are generally stateless. They don't rely on the state of a particular instance to create new objects. Instead they focus on creating new instances based on the input parameters.
+- SRP (sigle responsability principle)
+  - Using class methods for object creation keeps these operations separate from the behavior of the instantiated objects themselves adhering to SRP.
+- Ease of access and use
+  - Class methods can be called directly on the class without needing to instantiate an object first. This is particularly used for factory methods because the whole point is to create new instances. If factory methods were instance methods, you'd need an existing instance to create more instances which could be paradoxical or just unnecessarily complicated.
+- Flexibility and Extensibility.
+  - Implementing the factory pattern as class methods allows for more flexibility in extending the factory functionality. For example, a subclass can easily override a class method to provide specialized behavior without affecting the instantiation of other classes. This is harder to achieve with instance methods without also modifying object instantiation logic.
